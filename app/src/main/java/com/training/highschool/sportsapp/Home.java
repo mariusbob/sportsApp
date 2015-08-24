@@ -14,10 +14,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
 
+import com.google.android.gms.maps.MapFragment;
+
 public class Home extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
-    private MapFragment mMapFragment;
+    private UserMapFragment mUserMapFragment;
     private FragmentManager mFragmentManager = getSupportFragmentManager();
 
     /**
@@ -29,14 +31,6 @@ public class Home extends ActionBarActivity
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
     private CharSequence mTitle;
-
-    private void addMapFragment() {
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        MapFragment fragment = new MapFragment();
-        transaction.add(R.id.mapView, fragment);
-        transaction.commit();
-    }
 
 
     @Override
@@ -67,8 +61,8 @@ public class Home extends ActionBarActivity
         switch (number) {
             case 1:
                 mTitle = getString(R.string.title_map);
-                mMapFragment = new MapFragment();
-                mFragmentManager.beginTransaction().replace(R.id.container, mMapFragment).commit();
+                mUserMapFragment = new UserMapFragment();
+                mFragmentManager.beginTransaction().replace(R.id.container, mUserMapFragment).commit();
 
                 break;
             case 2:
