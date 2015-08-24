@@ -7,6 +7,6 @@
 /captures
 .idea/
 *.iml
-app/
+app/app.iml
 
 #test
