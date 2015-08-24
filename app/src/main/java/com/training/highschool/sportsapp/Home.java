@@ -17,6 +17,7 @@ public class Home extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     private MapFragment mMapFragment;
+    private SignInFragment signInFragment;
     private FragmentManager mFragmentManager = getSupportFragmentManager();
 
     /**
@@ -63,6 +64,8 @@ public class Home extends ActionBarActivity
                 break;
             case 2:
                 mTitle = getString(R.string.title_login);
+                signInFragment = new SignInFragment();
+                mFragmentManager.beginTransaction().replace(R.id.container, signInFragment).commit();
                 break;
             case 3:
                 mTitle = getString(R.string.title_about);
