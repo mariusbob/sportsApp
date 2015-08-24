@@ -7,5 +7,6 @@
 /captures
 .idea/
 *.iml
+app/
 
 #test
