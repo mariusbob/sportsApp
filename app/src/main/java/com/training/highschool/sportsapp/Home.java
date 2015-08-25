@@ -17,6 +17,7 @@ public class Home extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
 
     private MapFragment mMapFragment;
+    private AboutFragment mAboutFragment;
     private FragmentManager mFragmentManager = getSupportFragmentManager();
 
     /**
@@ -66,6 +67,8 @@ public class Home extends ActionBarActivity
                 break;
             case 3:
                 mTitle = getString(R.string.title_about);
+                mAboutFragment = new AboutFragment();
+                mFragmentManager.beginTransaction().replace(R.id.container, mAboutFragment).commit();
                 break;
         }
     }
