@@ -1,6 +1,10 @@
 package com.training.highschool.sportsapp;
 
 import android.app.Activity;
+import android.content.Context;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
@@ -16,8 +20,11 @@ import android.support.v4.widget.DrawerLayout;
 
 import com.google.android.gms.maps.MapFragment;
 
+import org.apache.commons.logging.Log;
+
 public class Home extends ActionBarActivity
         implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+
 
     private UserMapFragment mUserMapFragment;
     private FragmentManager mFragmentManager = getSupportFragmentManager();
@@ -33,6 +40,7 @@ public class Home extends ActionBarActivity
     private CharSequence mTitle;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,6 +49,9 @@ public class Home extends ActionBarActivity
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
+
+        //mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(
@@ -148,6 +159,12 @@ public class Home extends ActionBarActivity
             ((Home) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
+
+
+
+
+
+
     }
 
 }
