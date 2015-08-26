@@ -20,11 +20,14 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationRequest;
+
+import java.util.List;
 
 
 /**
@@ -78,6 +81,11 @@ public class UserMapFragment extends Fragment implements ConnectionCallbacks,
 
         return rootView;
     }
+
+
+
+
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

@@ -34,7 +34,7 @@
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="AIzaSyBgUv6vPHe5k7SCpjmmM-6niAacbxoC1b8" />
+            android:value="AIzaSyDNsPjI7OcNpeEj_aetiH_905VBWjN4Q4E" />
 
         <uses-library android:name="com.google.android.maps" />
 
