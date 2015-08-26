@@ -5,4 +5,8 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="heading3">
+        <item name="android:textSize">21sp</item>
+    </style>
+
 </resources>
