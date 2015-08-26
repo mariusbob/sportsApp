@@ -6,6 +6,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,11 +100,11 @@ public class UserMapFragment extends Fragment implements ConnectionCallbacks,
         //map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), -5));
 
         if (map == null) {
-        /*    map = fragment.getMap();
+            map = fragment.getMap();
             map.addMarker(new MarkerOptions().position(new LatLng(46.766726 ,23.554856)));
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(46.766726 ,23.554856), -5));
             map.animateCamera(CameraUpdateFactory.zoomTo(15));
-            */
+
 
         }
     }
