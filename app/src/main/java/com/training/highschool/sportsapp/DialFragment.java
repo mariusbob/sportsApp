@@ -18,6 +18,7 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.login.widget.ProfilePictureView;
 
 import org.json.JSONObject;
 
@@ -27,6 +28,7 @@ public class DialFragment extends DialogFragment {
 
     LoginButton loginButton;
     CallbackManager callbackManager;
+    ProfilePictureView profilePictureView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,17 +40,20 @@ public class DialFragment extends DialogFragment {
         View rootView = inflater.inflate(R.layout.modal_dialog, container, false);
 
         loginButton = (LoginButton) rootView.findViewById(R.id.login_button);
+        profilePictureView = (ProfilePictureView) rootView.findViewById(R.id.profileImage);
         loginButton.setFragment(this);
         loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
         callbackManager = CallbackManager.Factory.create();
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
+            public void onSuccess(final LoginResult loginResult) {
                 GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
                         Log.d("USERU ", jsonObject.toString());
+                        Log.d("USERU: ", loginResult.getAccessToken().getUserId());
+                        profilePictureView.setProfileId(loginResult.getAccessToken().getUserId());
                     }
                 }).executeAsync();
             }
