@@ -19,8 +19,9 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
-import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.Arrays;
 
 public class DialFragment extends DialogFragment {
 
@@ -30,24 +31,24 @@ public class DialFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         // Inflate the layout for this fragment
         FacebookSdk.sdkInitialize(getActivity());
-        callbackManager = CallbackManager.Factory.create();
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         View rootView = inflater.inflate(R.layout.modal_dialog, container, false);
+
         loginButton = (LoginButton) rootView.findViewById(R.id.login_button);
         loginButton.setFragment(this);
-        loginButton.setReadPermissions("public_profile");
+        loginButton.setReadPermissions(Arrays.asList("public_profile", "email"));
+        callbackManager = CallbackManager.Factory.create();
+
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                     @Override
                     public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
-                        String email = jsonObject.optString("name");
-
-                        Log.d("USERU ", email);
-
+                        Log.d("USERU ", jsonObject.toString());
                     }
                 }).executeAsync();
             }
