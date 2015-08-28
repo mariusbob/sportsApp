@@ -8,5 +8,6 @@
 .idea/
 /.idea/misc.xml
 *.iml
+/app/app.iml
 
 #test
