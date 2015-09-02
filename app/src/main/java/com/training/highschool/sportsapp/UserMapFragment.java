@@ -25,6 +25,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationRequest;
@@ -59,20 +60,25 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
             handleNewLocation(location);
         };
     }
+    double currentLatitude, currentLongitude;
 
     private void handleNewLocation(Location location) {
         Log.d(TAG, location.toString());
         //pentru afisare
-        double currentLatitude = location.getLatitude();
-        double currentLongitude = location.getLongitude();
+        currentLatitude = location.getLatitude();
+        currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
         MarkerOptions options = new MarkerOptions()
                 .position(latLng)
-                .title("Is aici, boss!");
+                .title("Checkpoint");
         map.addMarker(options);
         map.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-        map.animateCamera(CameraUpdateFactory.zoomTo(4));
+        //map.animateCamera(CameraUpdateFactory.zoomTo(4));
 
+
+        map.setMyLocationEnabled(true);
+
+        map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(currentLatitude, currentLongitude), 18));
 
     }
 
@@ -96,7 +102,6 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
         // inflate and return the layout
         View rootView = inflater.inflate(R.layout.fragment_map, container,
                 false);
-
 
 
 
@@ -158,7 +163,7 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
             e.printStackTrace();
         }
         else {
-            Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
+            Log.i(TAG, "Loopcation services connection failed with code " + connectionResult.getErrorCode());
         }
     }
     @Override
