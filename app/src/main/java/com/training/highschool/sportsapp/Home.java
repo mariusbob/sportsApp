@@ -59,8 +59,6 @@ public class Home extends ActionBarActivity
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
         mTitle = getTitle();
 
-        //mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-
 
         // Set up the drawer.
         mNavigationDrawerFragment.setUp(

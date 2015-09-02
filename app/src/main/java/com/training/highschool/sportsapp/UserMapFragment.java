@@ -29,7 +29,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.location.LocationRequest;
 
-import java.util.List;
 
 
 /**
@@ -40,7 +39,6 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
 
     private SupportMapFragment fragment;
     private GoogleMap map;
-    public Location mLastLocation;
     private LocationRequest mLocationRequest;
 
     private GoogleApiClient mGoogleApiClient;
@@ -105,7 +103,7 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
 
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
-                .setInterval(10 * 1000)        // 10 seconds, in milliseconds
+                .setInterval(1 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
         // inflate and return the layout
@@ -147,14 +145,11 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
 
         mGoogleApiClient.connect();
 
-        //displayLocation();
-
        // map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), -5));
 
         if (map == null) {
             LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
-            MyCurrentLoctionListener locationListener = new MyCurrentLoctionListener();
             map = fragment.getMap();
             //map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), -5));
            /* map.addMarker(new MarkerOptions().position(new LatLng(mLatitudeText, mLongitudeText)));
@@ -194,64 +189,6 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
     }
 
 
-
-
-
-
-    /*
-    public Location getLocation() {
-
-        Location location = null;
-        try {
-            LocationManager mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            location = null;
-            mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            // getting GPS status
-            boolean isGPSEnabled = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-            // getting network status
-            boolean isNetworkEnabled = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-            if (!isGPSEnabled && !isNetworkEnabled) {
-                // no network provider is enabled
-            } else {
-                // First get location from Network Provider
-                double lat, lng;
-                if (isNetworkEnabled) {
-                    mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, (LocationListener) this);
-                    //Log.d("Network", "Network");
-                    if (mLocationManager != null) {
-                        location = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        if (location != null) {
-                            lat = location.getLatitude();
-                            lng = location.getLongitude();
-                        }
-                    }
-                }
-                //get the location by gps
-                if (isGPSEnabled) {
-                    if (location == null) {
-                        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, (LocationListener) this);
-                        //Log.d("GPS Enabled", "GPS Enabled");
-                        if (mLocationManager != null) {
-                            location = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                            if (location != null) {
-                                lat = location.getLatitude();
-                                lng = location.getLongitude();
-                            }
-                        }
-                    }
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return location;
-    }
-
- */
 
 
 }
