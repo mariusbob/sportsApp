@@ -38,7 +38,7 @@ public class UserMapFragment extends Fragment implements ConnectionCallbacks,
 
     private SupportMapFragment fragment;
     private GoogleMap map;
-    private Location mLastLocation;
+    public Location mLastLocation;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -52,7 +52,7 @@ public class UserMapFragment extends Fragment implements ConnectionCallbacks,
 
     private TextView lblLocation;
 
-    public void displayLocation()
+   /*  public void displayLocation()
     {
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if(mLastLocation != null)
@@ -62,7 +62,18 @@ public class UserMapFragment extends Fragment implements ConnectionCallbacks,
 
         }
     }
+*/
+    TextView mLatitudeText, mLongitudeText;
 
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
+                mGoogleApiClient);
+        if (mLastLocation != null) {
+            mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
+            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
+        }
+    }
 
 
 
@@ -102,28 +113,34 @@ public class UserMapFragment extends Fragment implements ConnectionCallbacks,
     public void onResume() {
         super.onResume();
 
+            mGoogleApiClient = new GoogleApiClient.Builder(getActivity().getApplicationContext())
+                    .addConnectionCallbacks(this)
+                    .addOnConnectionFailedListener(this)
+                    .addApi(LocationServices.API)
+                    .build();
+
 
         //displayLocation();
 
-        //map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), -5));
+       // map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), -5));
 
         if (map == null) {
-            map = fragment.getMap();
-            map.addMarker(new MarkerOptions().position(new LatLng(46.766726 ,23.554856)));
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(46.766726 ,23.554856), -5));
-            map.animateCamera(CameraUpdateFactory.zoomTo(15));
+            LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+            MyCurrentLoctionListener locationListener = new MyCurrentLoctionListener();
+           map = fragment.getMap();
+            //map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), -5));
+            //map.addMarker(new MarkerOptions().position(new LatLng()));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng((double)mLastLocation.getLatitude(), (double)mLastLocation.getLongitude()), -5));
+            map.animateCamera(CameraUpdateFactory.zoomTo(2));
 
 
         }
     }
 
-    private static final long MIN_TIME_BW_UPDATES = 1 ;
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 1;
 
-    @Override
-    public void onConnected(Bundle bundle) {
 
-    }
+
 
     @Override
     public void onConnectionSuspended(int i) {
@@ -134,6 +151,8 @@ public class UserMapFragment extends Fragment implements ConnectionCallbacks,
     public void onConnectionFailed(ConnectionResult connectionResult) {
 
     }
+
+
 
 
     /*

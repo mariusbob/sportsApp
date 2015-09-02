@@ -17,7 +17,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.widget.TextView;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.MapFragment;
 
 import org.apache.commons.logging.Log;
@@ -39,12 +42,18 @@ public class Home extends ActionBarActivity
      */
     private CharSequence mTitle;
 
+    private GoogleApiClient mGoogleApiClient;
+
+    Location mLastLocation;
+    TextView mLatitudeText, mLongitudeText;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+
 
         mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
@@ -57,6 +66,12 @@ public class Home extends ActionBarActivity
         mNavigationDrawerFragment.setUp(
                 R.id.navigation_drawer,
                 (DrawerLayout) findViewById(R.id.drawer_layout));
+
+    }
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+
     }
 
     @Override
@@ -159,8 +174,6 @@ public class Home extends ActionBarActivity
             ((Home) activity).onSectionAttached(
                     getArguments().getInt(ARG_SECTION_NUMBER));
         }
-
-
 
 
 

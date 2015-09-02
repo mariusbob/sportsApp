@@ -274,6 +274,8 @@ public class NavigationDrawerFragment extends Fragment {
      * Callbacks interface that all activities using this fragment must implement.
      */
     public static interface NavigationDrawerCallbacks {
+        void onConnected(Bundle connectionHint);
+
         /**
          * Called when an item in the navigation drawer is selected.
          */
