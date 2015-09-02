@@ -46,20 +46,7 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
 
 
-    private TextView lblLocation;
 
-   /*  public void displayLocation()
-    {
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if(mLastLocation != null)
-        {
-            double lat = mLastLocation.getLatitude();
-            double lng = mLastLocation.getLongitude();
-
-        }
-    }
-*/
-    double mLatitudeText, mLongitudeText;
 
     @Override
     public void onConnected(Bundle connectionHint) {
