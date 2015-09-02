@@ -63,15 +63,15 @@ public class UserMapFragment extends Fragment implements ConnectionCallbacks,
         }
     }
 */
-    TextView mLatitudeText, mLongitudeText;
+    double mLatitudeText, mLongitudeText;
 
     @Override
     public void onConnected(Bundle connectionHint) {
         mLastLocation = LocationServices.FusedLocationApi.getLastLocation(
                 mGoogleApiClient);
         if (mLastLocation != null) {
-            mLatitudeText.setText(String.valueOf(mLastLocation.getLatitude()));
-            mLongitudeText.setText(String.valueOf(mLastLocation.getLongitude()));
+            mLatitudeText = Double.parseDouble(String.valueOf(mLastLocation.getLatitude()));
+            mLongitudeText = Double.parseDouble(String.valueOf(mLastLocation.getLongitude()));
         }
     }
 
@@ -80,7 +80,7 @@ public class UserMapFragment extends Fragment implements ConnectionCallbacks,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        buildGoogleApiClient();
 
         // inflate and return the layout
         View rootView = inflater.inflate(R.layout.fragment_map, container,
@@ -95,7 +95,13 @@ public class UserMapFragment extends Fragment implements ConnectionCallbacks,
 
 
 
-
+    protected synchronized void buildGoogleApiClient() {
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity().getApplication())
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
 
 
     @Override
@@ -113,11 +119,6 @@ public class UserMapFragment extends Fragment implements ConnectionCallbacks,
     public void onResume() {
         super.onResume();
 
-            mGoogleApiClient = new GoogleApiClient.Builder(getActivity().getApplicationContext())
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this)
-                    .addApi(LocationServices.API)
-                    .build();
 
 
         //displayLocation();
@@ -130,8 +131,8 @@ public class UserMapFragment extends Fragment implements ConnectionCallbacks,
             MyCurrentLoctionListener locationListener = new MyCurrentLoctionListener();
            map = fragment.getMap();
             //map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), -5));
-            //map.addMarker(new MarkerOptions().position(new LatLng()));
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng((double)mLastLocation.getLatitude(), (double)mLastLocation.getLongitude()), -5));
+            map.addMarker(new MarkerOptions().position(new LatLng(mLatitudeText, mLongitudeText)));
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitudeText, mLongitudeText), -5));
             map.animateCamera(CameraUpdateFactory.zoomTo(2));
 
 
