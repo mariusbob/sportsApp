@@ -25,7 +25,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".Home"
-            android:label="@string/title_activity_home" >
+            android:label="sportsApp" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

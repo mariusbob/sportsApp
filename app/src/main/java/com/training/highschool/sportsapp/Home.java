@@ -31,6 +31,7 @@ public class Home extends ActionBarActivity
 
     private UserMapFragment mUserMapFragment;
     private FragmentManager mFragmentManager = getSupportFragmentManager();
+    private AboutFragment mAboutFragment;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -91,9 +92,12 @@ public class Home extends ActionBarActivity
                 break;
             case 2:
                 mTitle = getString(R.string.title_login);
+
                 break;
             case 3:
                 mTitle = getString(R.string.title_about);
+                mAboutFragment = new AboutFragment();
+                mFragmentManager.beginTransaction().replace(R.id.container, mAboutFragment).commit();
                 break;
         }
     }
