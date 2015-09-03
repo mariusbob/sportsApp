@@ -3,43 +3,27 @@ package com.training.highschool.sportsapp;
 import android.content.Context;
 import android.content.IntentSender;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
-import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+import com.google.android.gms.location.LocationListener;
+import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.GroundOverlay;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.location.LocationRequest;
-import com.google.android.gms.maps.model.Polygon;
-import com.google.android.gms.maps.model.PolygonOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
-
-import static java.lang.String.*;
 
 
 /**
@@ -52,15 +36,12 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
     private GoogleMap map;
     private LocationRequest mLocationRequest;
 
-    private static View view;
-
     private GoogleApiClient mGoogleApiClient;
     public static final String TAG = UserMapFragment.class.getSimpleName();
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     public float viteza;
-
-
-
+    private static View view;
+    public String provider;
 
     @Override
     public void onConnected(Bundle connectionHint) {
@@ -71,7 +52,7 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
         }
         else {
             handleNewLocation(location);
-        };
+        }
     }
     double currentLatitude, currentLongitude;
 
@@ -81,6 +62,7 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
         currentLatitude = location.getLatitude();
         currentLongitude = location.getLongitude();
         LatLng latLng = new LatLng(currentLatitude, currentLongitude);
+
         /*
 
         MarkerOptions options = new MarkerOptions()
@@ -110,15 +92,12 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
                 .position(latLng, 8f, 8f);
         map.addGroundOverlay(overlay);
 
-
     }
 
     @Override
     public void onConnectionSuspended(int i) {
         Log.i(TAG, "Location services suspended. Please reconnect.");
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -136,22 +115,15 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
 
         }
 
-
         buildGoogleApiClient();
-
 
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(1 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
-        // inflate and return the layout
-
-
         return view;
     }
-
-
 
     protected synchronized void buildGoogleApiClient() {
         mGoogleApiClient = new GoogleApiClient.Builder(getActivity().getApplication())
@@ -179,36 +151,23 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
 
         mGoogleApiClient.connect();
 
-       // map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), -5));
-
         if (map == null) {
             LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-
             map = fragment.getMap();
-            //map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude()), -5));
-           /* map.addMarker(new MarkerOptions().position(new LatLng(mLatitudeText, mLongitudeText)));
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(mLatitudeText, mLongitudeText), -5));
-            map.animateCamera(CameraUpdateFactory.zoomTo(2));
-            */
-            //map.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
-
 
         }
     }
 
-
-
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         if (connectionResult.hasResolution()) try {
-            // Start an Activity that tries to resolve the error
+            // Incepe o activitate ce incearca sa rezolve eroarea
             connectionResult.startResolutionForResult(getActivity(), CONNECTION_FAILURE_RESOLUTION_REQUEST);
         } catch (IntentSender.SendIntentException e) {
             e.printStackTrace();
         }
         else {
-            Log.i(TAG, "Loopcation services connection failed with code " + connectionResult.getErrorCode());
+            Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
         }
     }
     @Override
@@ -220,14 +179,11 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
         }
     }
 
+
     @Override
     public void onLocationChanged(Location location) {
         handleNewLocation(location);
         float viteza = location.getSpeed();
-        Log.i(TAG,"Viteza = " +  String.valueOf(viteza));
+        Log.i(TAG, "Viteza = " + String.valueOf(viteza));
     }
-
-
-
-
 }
