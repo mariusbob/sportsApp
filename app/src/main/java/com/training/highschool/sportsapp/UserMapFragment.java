@@ -10,6 +10,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
+import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -45,6 +46,7 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
     private GoogleApiClient mGoogleApiClient;
     public static final String TAG = UserMapFragment.class.getSimpleName();
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
+    private static View view;
 
 
 
@@ -92,7 +94,22 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        
+        if(view != null){
+            ViewGroup parent = (ViewGroup) view.getParent();
+            if(parent != null){
+                parent.removeView(view);
+            }
+        }
+        try{
+            view = inflater.inflate(R.layout.fragment_map, container, false);
+        } catch (InflateException e) {
+
+        }
+
+
         buildGoogleApiClient();
+
 
         mLocationRequest = LocationRequest.create()
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
@@ -100,13 +117,7 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
 
         // inflate and return the layout
-        View rootView = inflater.inflate(R.layout.fragment_map, container,
-                false);
-
-
-
-
-        return rootView;
+    return view;
     }
 
 
