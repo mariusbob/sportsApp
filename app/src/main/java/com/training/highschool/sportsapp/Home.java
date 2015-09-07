@@ -32,6 +32,7 @@ public class Home extends ActionBarActivity
     private UserMapFragment mUserMapFragment;
     private FragmentManager mFragmentManager = getSupportFragmentManager();
     private AboutFragment mAboutFragment;
+    private SignInFragment mSignInFragment;
 
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
@@ -92,6 +93,9 @@ public class Home extends ActionBarActivity
                 break;
             case 2:
                 mTitle = getString(R.string.title_login);
+                mSignInFragment = new SignInFragment();
+                mFragmentManager.beginTransaction().replace(R.id.container, mSignInFragment).commit();
+
 
                 break;
             case 3:
