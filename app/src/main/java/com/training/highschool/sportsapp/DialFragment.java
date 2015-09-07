@@ -27,12 +27,11 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
-public class DialFragment extends DialogFragment implements View.OnClickListener{
+public class DialFragment extends DialogFragment  {
 
     LoginButton loginButton;
     CallbackManager callbackManager;
     ProfilePictureView profilePictureView;
-    Communicator comm;
     String id;
 
 
@@ -68,7 +67,6 @@ public class DialFragment extends DialogFragment implements View.OnClickListener
                     }
                 }).executeAsync();
 
-                comm.respond(id);
                }
 
             @Override
@@ -86,20 +84,18 @@ public class DialFragment extends DialogFragment implements View.OnClickListener
     }
 
     @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
-        comm = (Communicator) getActivity();
 
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        comm = (Communicator) activity;
-    }
 
-    @Override
-    public void onClick(View v) {
-        comm.respond("button was clicked");
-    }
+
 }

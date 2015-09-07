@@ -17,7 +17,7 @@ import android.support.v4.app.FragmentManager;
 
 
 public class Home extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks,Communicator {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks{
 
     private MapFragment mMapFragment;
     private AboutFragment mAboutFragment;
@@ -115,11 +115,7 @@ public class Home extends ActionBarActivity
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void respond(String data) {
-        android.app.FragmentManager manager = getFragmentManager();
 
-    }
 
     /**
      * A placeholder fragment containing a simple view.
