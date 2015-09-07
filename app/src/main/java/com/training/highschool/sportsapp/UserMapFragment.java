@@ -2,6 +2,8 @@ package com.training.highschool.sportsapp;
 
 import android.content.Context;
 import android.content.IntentSender;
+import android.graphics.Color;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -24,6 +26,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.GroundOverlayOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
+
+import java.util.List;
 
 
 /**
@@ -49,11 +55,11 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (location == null) {
             LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-        }
-        else {
+        } else {
             handleNewLocation(location);
         }
     }
+
     double currentLatitude, currentLongitude;
 
     private void handleNewLocation(Location location) {
@@ -92,6 +98,30 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
                 .position(latLng, 8f, 8f);
         map.addGroundOverlay(overlay);
 
+
+   /*     PolylineOptions linie = new PolylineOptions().width(5).color(Color.RED);
+        Polyline linie2 = map.addPolyline(linie);
+
+       List<LatLng> points = linie2.getPoints();
+        points.add(latLng);
+        linie2.setPoints(points);
+
+        List<LatLng> points = decodePoly(_path); // list of latlng
+        for (int i = 0; i < points.size() - 1; i++) {
+            LatLng src = points.get(i);
+            LatLng dest = points.get(i + 1);
+
+            // mMap is the Map Object
+            Polyline line = map.addPolyline(
+                    new PolylineOptions().add(
+                            new LatLng(src.latitude, src.longitude),
+                            new LatLng(dest.latitude,dest.longitude)
+                    ).width(2).color(Color.BLUE).geodesic(true)
+            );
+        }
+*/
+
+
     }
 
     @Override
@@ -103,13 +133,13 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        if(view != null){
+        if (view != null) {
             ViewGroup parent = (ViewGroup) view.getParent();
-            if(parent != null){
+            if (parent != null) {
                 parent.removeView(view);
             }
         }
-        try{
+        try {
             view = inflater.inflate(R.layout.fragment_map, container, false);
         } catch (InflateException e) {
 
@@ -121,6 +151,11 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
                 .setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY)
                 .setInterval(1 * 1000)        // 10 seconds, in milliseconds
                 .setFastestInterval(1 * 1000); // 1 second, in milliseconds
+
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+
+
 
         return view;
     }
@@ -153,7 +188,10 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
 
         if (map == null) {
             LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 30, 30000, new MyLocationListener());
+
             map = fragment.getMap();
+
 
         }
     }
@@ -170,6 +208,7 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
             Log.i(TAG, "Location services connection failed with code " + connectionResult.getErrorCode());
         }
     }
+
     @Override
     public void onPause() {
         super.onPause();
@@ -179,6 +218,18 @@ public class UserMapFragment extends Fragment implements GoogleApiClient.Connect
         }
     }
 
+   /* LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+    LocationListener locationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
+                    (android.location.LocationListener) locationListener);
+            handleNewLocation(location);
+            float viteza = location.getSpeed();
+            Log.i(TAG, "Viteza = " + String.valueOf(viteza));
+
+        }
+    };*/
 
     @Override
     public void onLocationChanged(Location location) {
