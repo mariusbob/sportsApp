@@ -12,12 +12,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.app.FragmentManager;
+
+
 
 public class Home extends ActionBarActivity
-        implements NavigationDrawerFragment.NavigationDrawerCallbacks {
+        implements NavigationDrawerFragment.NavigationDrawerCallbacks,Communicator {
 
     private MapFragment mMapFragment;
     private AboutFragment mAboutFragment;
+    private StatsFragment mStatsFragment;
     private FragmentManager mFragmentManager = getSupportFragmentManager();
 
     /**
@@ -63,7 +67,9 @@ public class Home extends ActionBarActivity
 
                 break;
             case 2:
-                mTitle = getString(R.string.title_login);
+                mTitle = getString(R.string.title_stats);
+                mStatsFragment = new StatsFragment();
+                mFragmentManager.beginTransaction().replace(R.id.container, mStatsFragment).commit();
                 break;
             case 3:
                 mTitle = getString(R.string.title_about);
@@ -107,6 +113,12 @@ public class Home extends ActionBarActivity
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void respond(String data) {
+        android.app.FragmentManager manager = getFragmentManager();
+
     }
 
     /**

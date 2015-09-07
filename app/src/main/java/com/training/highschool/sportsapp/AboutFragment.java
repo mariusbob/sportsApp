@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
-public class AboutFragment extends Fragment {
+public class AboutFragment extends Fragment{
 
     private Button mShowDialogButton;
     TextView tvTitle;
@@ -27,6 +27,7 @@ public class AboutFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstance){
         tvTitle = (TextView) view.findViewById(R.id.tvTitle);
         mShowDialogButton = (Button) view.findViewById(R.id.btnShowDialog);
+
         mShowDialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

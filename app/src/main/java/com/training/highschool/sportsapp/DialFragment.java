@@ -1,7 +1,10 @@
 package com.training.highschool.sportsapp;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.util.Log;
@@ -24,11 +27,14 @@ import org.json.JSONObject;
 
 import java.util.Arrays;
 
-public class DialFragment extends DialogFragment {
+public class DialFragment extends DialogFragment implements View.OnClickListener{
 
     LoginButton loginButton;
     CallbackManager callbackManager;
     ProfilePictureView profilePictureView;
+    Communicator comm;
+    String id;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,6 +44,9 @@ public class DialFragment extends DialogFragment {
         FacebookSdk.sdkInitialize(getActivity());
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         View rootView = inflater.inflate(R.layout.modal_dialog, container, false);
+
+
+
 
         loginButton = (LoginButton) rootView.findViewById(R.id.login_button);
         profilePictureView = (ProfilePictureView) rootView.findViewById(R.id.profileImage);
@@ -53,10 +62,14 @@ public class DialFragment extends DialogFragment {
                     public void onCompleted(JSONObject jsonObject, GraphResponse graphResponse) {
                         Log.d("USERU ", jsonObject.toString());
                         Log.d("USERU: ", loginResult.getAccessToken().getUserId());
+                        id = loginResult.getAccessToken().getUserId();
                         profilePictureView.setProfileId(loginResult.getAccessToken().getUserId());
+
                     }
                 }).executeAsync();
-            }
+
+                comm.respond(id);
+               }
 
             @Override
             public void onCancel() {
@@ -76,5 +89,17 @@ public class DialFragment extends DialogFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
+        comm = (Communicator) getActivity();
+
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        comm = (Communicator) activity;
+    }
+
+    @Override
+    public void onClick(View v) {
+        comm.respond("button was clicked");
     }
 }
