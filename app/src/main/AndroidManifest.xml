@@ -7,6 +7,7 @@
         android:name="com.training.highschool.sportsapp.permission.MAPS_RECEIVE"
         android:protectionLevel="signature" />
 
+    <!--<uses-permission android:name="android.permission.ACCESS_GPS" />-->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
